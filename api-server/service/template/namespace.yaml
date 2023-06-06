@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: collie-agent
+  labels:
+    app.kubernetes.io/name: collie
+    app.kubernetes.io/instance: collie
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie

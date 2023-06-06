@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-server
+  namespace: collie-server
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /portal
+            pathType: Prefix
+            backend:
+              service:
+                name: portal
+                port:
+                  name: http
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  name: http
+

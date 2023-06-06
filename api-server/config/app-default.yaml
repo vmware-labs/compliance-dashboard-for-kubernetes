@@ -1,0 +1,2 @@
+agent_image: "collie.azurecr.io/collie-agent:1"
+grafana_url: "https://collie.eng.vmware.com/d/qIbLYbT4z/k8s-compliance-report"

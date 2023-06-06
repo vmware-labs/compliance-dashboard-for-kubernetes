@@ -1,0 +1,8 @@
+.terraform
+.idea
+.run
+*.iml
+bin
+.env
+collie-agent
+

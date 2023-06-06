@@ -1,0 +1,226 @@
+---
+# Source: api-server/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: collie-server
+  labels:
+    app.kubernetes.io/name: collie
+    app.kubernetes.io/instance: collie
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+---
+# Source: api-server/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: api-server
+  namespace: collie-server
+  labels:
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+---
+# Source: api-server/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: api-server
+  namespace: collie-server
+  labels:
+
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+data:
+  ES_KEY: ${ES_KEY_B64}
+  OAUTH_CSP_CLIENTID: ${OAUTH_CSP_CLIENTID_B64}
+  OAUTH_CSP_CLIENTSECRET: ${OAUTH_CSP_CLIENTSECRET_B64}
+  OAUTH_GITLAB_CLIENTID: ${OAUTH_GITLAB_CLIENTID_B64}
+  OAUTH_GITLAB_CLIENTSECRET: ${OAUTH_GITLAB_CLIENTSECRET_B64}
+---
+# Source: api-server/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-server
+  namespace: collie-server
+  labels:
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+
+data:
+  API_URL: ${API_URL}
+  ES_URL: ${ES_URL}
+---
+# Source: collie-agent/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: api-server
+  namespace: collie-server
+  labels:
+
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+
+rules:
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+    resourceNames:
+      - api-server
+    verbs:
+      - patch
+---
+# Source: api-server/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-server
+  labels:
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+  namespace: collie-server
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: api-server
+subjects:
+  - kind: ServiceAccount
+    name: api-server
+    namespace: collie-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: collie-server
+  labels:
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: api-server
+      app.kubernetes.io/instance: api-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: api-server
+        app.kubernetes.io/instance: api-server
+    spec:
+      serviceAccountName: api-server
+      automountServiceAccountToken: true
+      securityContext:
+        fsGroup: 1002
+        runAsGroup: 1002
+        runAsNonRoot: true
+        runAsUser: 1002
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: api-server
+          image: collie.azurecr.io/collie-api-server:1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PPROF_PORT
+              value: "6060"
+          envFrom:
+            - configMapRef:
+                name: api-server
+            - secretRef:
+                name: api-server
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 1000m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          ports:
+            - containerPort: 9876
+              name: healthz
+            - containerPort: 8080
+              name: rest
+          readinessProbe:
+            httpGet:
+              port: healthz
+          livenessProbe:
+            httpGet:
+              port: healthz
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/managed-by: collie
+    app.kubernetes.io/name: api-server
+    app.kubernetes.io/version: v1
+  name: api-server
+  namespace: collie-server
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/instance: api-server
+    app.kubernetes.io/name: api-server
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-server
+  namespace: collie-server
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /collie/portal
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  name: http
+          - path: /collie/oauth
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  name: http
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  name: http

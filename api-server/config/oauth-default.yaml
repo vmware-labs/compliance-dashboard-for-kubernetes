@@ -1,0 +1,19 @@
+oauth:
+  portal: http://localhost:8080
+  csp:
+    host: https://console-stg.cloud.vmware.com
+    authUrl: ${oauth.csp.host}/csp/gateway/discovery
+    tokenUrl: ${oauth.csp.host}/csp/gateway/am/api/auth/token
+    jwksUrl: ${oauth.csp.host}/csp/gateway/am/api/auth/token-public-key?format=jwks
+    redirectUrl: ${oauth.portal}/collie/oauth/callback/csp
+    #clientId: <from-secret>
+    #clientSecret: <from-secret>
+    orgId: e7923078-6663-4178-9555-bcd5a036693e
+    issuer: https://gaz-preview.csp-vidm-prod.com
+  gitlab:
+    host: https://gitlab.eng.vmware.com
+    authUrl: ${oauth.gitlab.host}/oauth/authorize
+    tokenUrl: ${oauth.gitlab.host}/oauth/token
+    redirectUrl: ${oauth.portal}/collie/oauth/callback/gitlab
+    #clientId: <from-secret>
+    #clientSecret: <from-secret>

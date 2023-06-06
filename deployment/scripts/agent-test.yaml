@@ -1,0 +1,362 @@
+---
+# Source: agent/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: collie-agent
+  labels:
+    
+    app.kubernetes.io/name: collie
+    app.kubernetes.io/instance: collie
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+# ---
+# # Source: agent/templates/resource-quota.yaml
+# apiVersion: v1
+# kind: ResourceQuota
+# metadata:
+#   name: agent-critical-pods
+#   namespace: collie-agent
+#   labels:
+    
+#     app.kubernetes.io/name: agent
+#     app.kubernetes.io/instance: agent
+#     app.kubernetes.io/version: "v0.42.1"
+#     app.kubernetes.io/managed-by: collie
+  
+# spec:
+#   scopeSelector:
+#     matchExpressions:
+#       - operator: In
+#         scopeName: PriorityClass
+#         values:
+#           # Required to ensure agent is always running to provide autoscaling capabilities.
+#           - system-cluster-critical
+---
+# Source: agent/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+---
+# Source: agent/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+data:
+  API_KEY: "YTU2ZDg1YmFlMjEwNWJjZDY5NTE1ZmZhODUyOGRmYTZlNjM0NjgxNzU3MDdlZmUyNWMzZGUzYjliZDc4NWVhNg=="
+---
+# Source: agent/templates/clustervpa-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-autoscaler
+  namespace: collie-agent
+  labels:
+    
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+data:
+  # Increase memory requests/limits by 256Mi for every 20 nodes. round_up(nodes/nodes_per_step)*step
+  # For example, for 150 nodes: round_up(150/20)*256Mi=2048Mi
+
+  # in case of large nodes, cores-per-step will ensure that we continue to scale the agent
+  agent-autoscaler: |-
+    {
+      "agent": {
+        "requests": {
+          "memory": {
+            "base": "0",
+            "max": "8Gi",
+            "step": "256Mi",
+            "nodesPerStep": 20,
+            "coresPerStep": 480
+          }
+        },
+        "limits": {
+          "memory": {
+            "base": "0",
+            "max": "8Gi",
+            "step": "256Mi",
+            "nodesPerStep": 20,
+            "coresPerStep": 480
+          }
+        }
+      }
+    }
+---
+# Source: agent/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+rules:
+  # ---
+  # Required for cost savings estimation features.
+  # ---
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - nodes
+      - replicationcontrollers
+      - persistentvolumeclaims
+      - persistentvolumes
+      - services
+      - namespaces
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+      - replicasets
+      - daemonsets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "storage.k8s.io"
+    resources:
+      - storageclasses
+      - csinodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "batch"
+    resources:
+      - jobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "autoscaling"
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "coordination.k8s.io"
+    resources:
+      - leases
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - "metrics.k8s.io"
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+  - nonResourceURLs:
+      - "/version"
+    verbs:
+      - "get"
+---
+# Source: agent/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: agent
+subjects:
+  - kind: ServiceAccount
+    name: agent
+    namespace: collie-agent
+---
+# Source: agent/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+rules:
+  # ---
+  # Required for proportional vertical cluster autoscaler to adjust agent requests/limits.
+  # ---
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+    resourceNames:
+      - agent
+    verbs:
+      - patch
+---
+# Source: agent/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  namespace: collie-agent
+  
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: agent
+subjects:
+  - kind: ServiceAccount
+    name: agent
+    namespace: collie-agent
+---
+# Source: agent/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v0.42.1"
+    app.kubernetes.io/managed-by: collie
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: agent
+      app.kubernetes.io/instance: agent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: agent
+        app.kubernetes.io/instance: agent
+    spec:
+      priorityClassName: system-cluster-critical
+      serviceAccountName: agent
+      automountServiceAccountToken: true
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: provisioner.collie/managed-by
+                operator: In
+                values:
+                - collie
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: NotIn
+                values:
+                - windows
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - agent
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      securityContext:
+        fsGroup: 1002
+        runAsGroup: 1002
+        runAsNonRoot: true
+        runAsUser: 1002
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: agent
+          image: collie.azurecr.io/collie-agent:1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: API_URL
+              value: "https://collie.eng.vmware.com:9200"
+            - name: PROVIDER
+              value: "aks"
+            - name: PPROF_PORT
+              value: "6060"
+          envFrom:
+            - secretRef:
+                name: agent
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 1000m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          ports:
+            - containerPort: 9876
+              name: healthz
+          readinessProbe:
+            httpGet:
+              port: healthz
+          livenessProbe:
+            httpGet:
+              port: healthz

@@ -1,0 +1,12 @@
+apiVersion: v2
+name: grafana
+version: 6.56.2
+appVersion: 9.5.1
+kubeVersion: "^1.8.0-0"
+description: Grafana
+home: https://grafana.net
+icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+sources:
+  - https://github.com/grafana/grafana
+engine: gotpl
+type: application

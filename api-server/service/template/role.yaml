@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+rules:
+  # ---
+  # Required for proportional vertical cluster autoscaler to adjust agent requests/limits.
+  # ---
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+    resourceNames:
+      - agent
+    verbs:
+      - patch

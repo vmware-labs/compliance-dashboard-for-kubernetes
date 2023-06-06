@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kube-hunter
+  namespace: collie-agent
+spec:
+  template:
+    metadata:
+      labels:
+        app: kube-hunter
+    spec:
+      containers:
+        - name: kube-hunter
+          image: collie.azurecr.io/kube-hunter:0.6.8
+          command: ["kube-hunter"]
+          args: ["--pod","--report=json"]
+      restartPolicy: Never

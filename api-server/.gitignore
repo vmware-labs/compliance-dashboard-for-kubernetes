@@ -1,0 +1,4 @@
+bin/
+collie-api-server
+.env
+

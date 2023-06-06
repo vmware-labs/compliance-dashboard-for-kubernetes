@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<style>
+
+.center {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+    height: 500px;
+    width: 300px;
+    font-family: Metropolis,"Avenir Next","Helvetica Neue",Arial,sans-serif;
+}
+h2 {
+    color: rgb(97, 97, 97);
+}
+
+.myButton {
+    background-color: #9fb5f4;
+    border: none;
+    color: white;
+    padding: 12px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 250px;
+    vertical-align: middle;
+}
+.myButton:hover {
+    background-color: #5fb9f9;
+}
+
+.myButton:active {
+  background-color: #2c47f5;
+  transform: translateY(4px);
+}
+
+.btnIcon {
+    vertical-align: sub;
+    height: 28px;
+    width: 28px;
+}
+</style>
+<body>
+    <div class="center">
+        <h2>Collie Dashboard for K8s</h2>
+        <br/><br/>
+        <button class='myButton' id="btnLoginCSP" onclick="loginCSP()">
+            <span>
+                <img class='btnIcon' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAw8SURBVHhe7ZsLdBTVGcfvzD6SbEKQYAAxPFQwICFoCBgUOeBpaatF0VbbWg9F24NgJFRboGCktaIiKkZAkeOrWh+AGrUUQkQMEkkgIYAkkoRAHmQ3yWaz2c2S3c2+Znq/2Tths+4mM7OzGzjd3zmcnflukp35z/3+9/ENKEqUKFGiRIkSJUqUKP8HsFbrVYX1f96/p2H25yTUh+ePNrxSrO0s7Xa55pPQJQFNPgcVlmU1zdZ9Ww8YH9Ca3fk/iVEMn06a+jBSo5pQrDVnvX2qtRDExL83jjQNKoMuosFesaS0ZZm5RLck29hzQtD1WF1uVNpiyfqgurVRbzVthYdAmgaFwRKRcjqdMyo78s5/q/vd9mbrXhWJC8bNMKjZ0oPe+6Ere0+90dTj6XkEi0mR5ogScRHB9xotnx0o0M4pO925aYyH6SEt0gAxTxks6u0n29841m45bze0ziVNESNiIvr63tG2x+f1uFtIizxAiu9vMKZ8amCL6s3Wwkj6ZdhFhBQD3zvenqsX43tSgRTfUaOfj1P8TKT8Mqw3BKlVZXy1qVi3ePvZrn8nkHBEgBSPlF+GRURIJex733xtWVRU0nByTL1+HIpVjiatkSFepURVJga9fNIcdr+UVURIHfA9PGWpA9+zeWq5eGNHF9pfqUI22wykoodysXChpGnU6VKgVUfM6P3aC1ws3H4pi4iQKpAy4HtHW3Oyg01ZKpraUWldElKymSQiLyDgliob+9IJM3J4WBK9SLj8MmQRed8rbJr7BvjeQFMWu5NBRTUGVKOdjDSKVBINDUjd/ToG974u1NztGtD7eL/EKV7Lut2/gU5AmiQhWURICfC9w/alB2C+J3bKYrhgQ4VVPajDPM3t75duxubNQz/sbk8XOeSAnleDIysOm1CRzkqiwoD5ZVGTKWXz9y07wC9h8k+aRCNKRHhikAKQCrzvhTplqW41K8EvXY6ZSEHHcjGL+2wDd+CHxckYyCGys0p2/fHuXt+TAggJfgli7jzbUcb5JV4MkGbBiBTgQhJO3Zri1puD+p5UjtTr0dG6q5DNkeQdjYLQ6WSq36rpcT9TbqIsTg+Jhga/hPz0jGH+njZ7o9heKUZExVcN63bUmd8OeakWDPDLivohw49Uj9pFQn14/rh138vf2xLqLS4lCckKiHna2K3OPdK6m4QEIUZEzw86V1oYR1cXxaI8lcOdumlB6fsk1gfLsrTCq101qYhFa/GpzRuVD350//isdQQJCUK0n4VjdKVo6j80TU3ZsrD48VfuL+0k4YBon7jfjlZMez5OQU/SKFA+CYcEjO67z7sEj+7+SB4U+htdhRKrQqfxQHXvlgWH7t684NBZEhaEPXtqsy172q/wcJcRo6AqSFgUvqN7aZt0i5IsIk+g0VUAHfjmV9/7bkPmawu/40sBP54dCyHnxhOO7HTsL9QSiqKaSXRA5BjdeUIWkYcfXQf0S5Z9G3xv693fbbzlE62dREMnJ/1Nr19SG/BZr1+6WdZJDjmg98k9ussmIsD7ZbMhvdcv6wznTsOnWuk5pKA8M7cu/O5P2PdMXKPMND9+Xw9akf6kr1+W6e2V8Am+V2rwrmrkHt1lFZEHNhx4v2RYT4eadv9h050lc1+9q6Sc/Ii01B0AnM7wdxnslzrsl79OVCl+rkBsU1Uncx58b3eDuFWNUMIiIhCnppEmrvnczRO0RWTKEhbhgsDgf2zX0ilfPZmRuHt0ArKOSVCF7fvDImLWtSPRrImdSBPTKc8cSCKkZ6IkNT15eZqG+utNVyA8knNtciKriOOvHIp+OtWFVDFlyMX02SsYdGA1kqTyoI1ZV6BFqUNIVB5kETF5iAb9LC0WjUk+heQuQMkNbDhMGorQq7cOQ7NGCZ6S9UtIIoLvzZuUjKaMbUD8LvblAoi5YKwKPTdzCEpUK0hUGpJFnD5uBOd7buoYCteGRKTIzUhA4JdSES0i+B6krkZTfsn5nlR4v4QUX3BNPIkKR5SI1yUrON+73FJXKJDis5JptHiyuOquKBEbjUgJq5FIlz8jBb+q+Vd1N4kIQ3Q6R7L8GSlgPc2XWaWsaiQPLOEuf0YKfiM2WJlVCJJFBMKxQRspQt2I9SUkEXnk2KCNFHJtxPoii4g8EjdoI4acG7G+yCoij9DyZ6QIR5nVl7CICIBfVp7X6EtqU/aQ0KCAe96B1yut1eEqswLhErEDClB+G7ERB97YsGdP1UJBCzZopRa0BkJuEV340ld/cW75WJ8C1KBB9hO5eQvUrJMdNbdBQQufylqzlk1EvnYMBSiuNuwlbLvJUoDrYpdPfeuBlr0p+NJeI+GQCVlEqB1DAYrUjutIeFCBl664V+a41+Ysw0mYA3rnRxvWmFDOjY/hn5Rcs/ZFlIgexuMmhwBXgHrpjuKp/fkevByEb+qA5fA3TNdnf3G4Gr79zP/G5KSzoOA57cbnDM6aL3fgedZHCCW0e6zGv4Ow5EcuQmrW4Jdiatb+iBKxwVxZhj/835kJmLIgFL7wN5H+TFnd0qW3n8lZSblazqkv7Fp0ryX/6ZagNyYReNm0+YVnrfW5uWu6K09qrHueQF1vzadd2tM0rRm2jnXa64K90In9cr/vOz5aq1vrbRGGqOXOY1/OXkXT9Of9pS1cpINxLFG7mXW6vFeu0O/K7xVq/OIxiLad8J7QGhR723JTXOaSZZRSudMbFA+8T9j6wQe7jF9+cotDb+I6Rfzka9HIqfC8vagn/RLFzV2L6MSrGJxOZS6GyVGr1QGzJ+61yjF2N/soWpG+hoQGRNbSF6SuiqY3G/Lzs3RbNyOPte8LDn1EJNBJE1HcrKWnqevvWhzsxgIBD8u0b9+z+g/fWYNngSTqxV9EDnhoGb9l425/imQO9Q6y2dZR8fGt3nPpyCKi1+OGbLhQUvRH3bZtlP9N8QQSkUc1dhaKzVqWrxw/5wnsT00kHAgap+4c3YaXCswHDwZcWwYUkUDHj8C98m9IPeUeqE0jxmb6J61JehF/p+RpT8giwv8aQC2GF7R5eTHBboqnPxF5YjMfZmOyHns60I1B6jbl5e01FRbc6N/LfelPRB54aDGzc5Eq5QaGdfa0UWp3OkUlGkmzKEISse3F+SPcmrv1hp0f/yh1AyFERAB6izrzIRM94+E1MbTzU2RTqFvfe2+D8b/5D/K+1x9CROSBhxY7e2Ur5WYzpaa2ZBErMjLuQQpqC8ugq0loQISKyAN+Sd+wlm17fydlOXaMRAdGjIgcLLJQNJs7bNX5LSQiCsmTbeVIdzkW8CA5lR88EJhrhqLub16nktL0KGbkMM7DwgKFDts7Yr4mZ6KRLOK0glPazIqKBxmavhWfHvVG5cHSnomadg9HHQcbuXPovVfP09GjF17DncsF66TrsYB3Jq1uumP0xrpqEhaNZBF5ZpaXl2AxZ1Es+zBFIx0JS8LpTLXpvp3IgHg/8ljGhmLxDGjCQzS6cu54EpQIpC/F5tSecqUlrWraS6KSCVlEAjv9+PF3HeP1E+kYZj0+d3jDAsGpq6+cibRfGDUDDRyMtR0ljjiGJiwdhhLThvkuQ4VBoW1ORepE8D+53tSVdbKNgb9Hff+L9NGudhW89vt7LkrwH1hYlmYuGDJoPm0DASkMPTAYjOYm1PxJR5+eG3hgoYp7jKpHQknbYMjVE3lgNcBgv2zBKb7I3y/dZlvvvK/HOQO1HLqu1/ekAg9l3AIjJ3YgLvpe4xwsYG2gtXOoyC0iD4MvlsV+edR5rX4e75fOtsYquCnwvZYvGpCQOZ8gfPwSUtxWW68D32MR9bSf7zGwFUaOZUP2pxIEquS+lNhYXfJaxkGvxOcx3vDADJTOgejpUG43VMWvhxkECYWViImIOyZ30Lr6+kktBxLfxYc3c4EBECciVYy/aQP0PEjbcPS6QERKRF/gO1mhKx5BIl5cccCWf/gm5UEIlyf2B9c78JTo8+nlFeMlTYkIMLrjR7KtpsIziizZIi4gMBgi+uLOKDnxlGqEawI+/tAbEkyBo1MJg8ajeL43qK/qDkY6B6VsxoxbaIbZhA97/TJl4XCbWl3buzsOozsVwyyXY6UhF4PdE/sQaAkJ0yKuUealmpxcUj3RFzwlioMp0ZU3WecnjHNUOKnUf4xa+VU7aY4iEO4Bg5jc2SX8wC8HouJFiRIlymUDQv8DDbSob3YoScgAAAAASUVORK5CYII="/>
+                CSP Login 
+            </span>
+        </button>
+        <br/><br/>
+        <button class='myButton' id="btnLoginGitlab" onclick="loginGitlab()">
+            <span>
+                <img class='btnIcon' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACFklEQVR42r1TzUoCURS+j+AjDOTcubrqEQYlaClGbSKQIIjUGmgf2ipo4zYIlPEB6g18hB5h6I9AjKkgpNG4nbMY7uBVT8Md/eCDwTnnfGe+78jmIXCFG5R5haWH+bxgW1hP5YJEvrnCIsqzn/dYLvTihsdSwWOGwBlqXrFFNkBhEDcAB8wQOCMxL6SKK1iYZOBaOXP7FfEe/mV/FjE8lURNzVKu0tvqDeb2K4boKrGtHoOh/bSreHxEg4H9hKsvW/YmviAaDO3Xj1E7vuUsdtOQmgeaHdr+7Kkf47Aiaq/bYt3i8nlLyGFV1Ni0ye+AcnzkyNGOWLno+56Q34eORM1Jk9/jAiFQxvw55itZBJzG2aiRZMjwYR4/9h3YOJuv/joQcpGO5sCsGwb3gb36V+sO2IMlBTI64fJ9N/0S2BPVl4gjG/aATRq8pb0gIqEs/9wX2EMRFnQ8Jj0rp8VAR0JbTjOQx5bFEFE971ENKpL5/5JRVbOc/voE9CjoSFJarohabB6ipl1TcdD8OeNy3OBpxEPUYMsw9oSF+ZDDLoFdYA/YpsV/T+2HOHMCcSR2Z9ENTK+B/RleLRbHWXjslCYdyTnwRolqvMWaNJYr0JFcoOWxGLFEW7PcHJO+3YlFKEKtsjxLRD5E4vNwkTC+wxq2Soy7wgKhYFb81wfLu2D5OgBCuWQk+Iy/sXVj6m9UJv28ywzwBzxk2ACtcnlEAAAAAElFTkSuQmCC"/>
+                Gitlab Login
+            </span>
+        </button>
+    </div>
+</body>
+<script type="text/javascript">
+	function loginCSP(event) {
+        location.href = "{{.cspAuthUrl}}"
+    }
+    function loginGitlab(event) {
+        location.href = "{{.gitlabAuthUrl}}"
+    }
+</script>
+</html>

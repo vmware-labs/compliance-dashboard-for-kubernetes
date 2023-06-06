@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent
+  namespace: collie-agent
+  labels:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: agent
+    app.kubernetes.io/version: "v1"
+    app.kubernetes.io/managed-by: collie
+  
+data:
+  API_URL: {{.ApiUrl}}
+  ES_URL: {{.EsUrl}}
+  PROVIDER: {{.Provider}}
