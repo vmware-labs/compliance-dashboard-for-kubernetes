@@ -58,7 +58,7 @@ func GetAuthUrl() string {
 	return common.GetAuthUrl(oauthConfig)
 }
 
-func Validate(accessToken string) (jwt.Token, error) {
+func Validate(accessToken string) (map[string]interface{}, error) {
 	return verifyJWT(accessToken)
 }
 
@@ -101,7 +101,7 @@ func newJWKSet(jwkUrl string) jwk.Set {
 	return jwk.NewCachedSet(jwkCache, jwkUrl)
 }
 
-func verifyJWT(base64Jwt string) (jwt.Token, error) {
+func verifyJWT(base64Jwt string) (map[string]interface{}, error) {
 
 	if jwkSet == nil {
 		jwkSet = newJWKSet(jwksURL)
@@ -140,5 +140,5 @@ func verifyJWT(base64Jwt string) (jwt.Token, error) {
 		return nil, fmt.Errorf("exp violation: %v", exp)
 	}
 
-	return decoded, nil
+	return decoded.AsMap(context.Background())
 }

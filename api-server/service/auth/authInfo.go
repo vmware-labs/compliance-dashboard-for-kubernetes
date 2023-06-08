@@ -16,31 +16,55 @@ limitations under the License.
 package auth
 
 import (
-	"github.com/lestrrat-go/jwx/v2/jwt"
+	"reflect"
+	"collie-api-server/util"
 )
 
 type AuthInfo interface {
-	OrgId() string
-	Jwt() jwt.Token
+	OrgId()								string
+	Username()							string
+	Get(name string)					string
+	GetAny(name string)					interface{}
+	Set(name string, value interface{})
+	AsMap()								map[string]interface{}
 }
 
 type defaultAuthInfo struct {
-	jwt jwt.Token
+	data map[string]interface{}
 }
 
-func FromJwt(jwt jwt.Token) AuthInfo {
-	return defaultAuthInfo{jwt: jwt}
-}
-
-func (t defaultAuthInfo) Jwt() jwt.Token {
-	return t.jwt
+func FromMap(data map[string]interface{}) AuthInfo {
+	return defaultAuthInfo{data: util.DeepCopyMap(data)}
 }
 
 func (t defaultAuthInfo) OrgId() string {
-	//v, exist := t.jwt.Get("context_name")
-	// if !exist {
-	// 	return ""
-	// }
-	// return v.(string)
 	return "elastic"
+	//return t.Get("orgId")
+}
+
+func (t defaultAuthInfo) Username() string {
+	return t.Get("username")
+}
+
+func (t defaultAuthInfo) Get(name string) string {
+	v, ok := t.data[name]
+	if !ok {
+		return ""
+	}
+	if reflect.TypeOf(v) == reflect.TypeOf("") {
+		return v.(string)
+	}
+	return ""
+}
+
+func (t defaultAuthInfo) GetAny(name string) interface{} {
+	return t.data[name]
+}
+
+func (t defaultAuthInfo) Set(name string, value interface{}) {
+	t.data[name] = value
+}
+
+func (t defaultAuthInfo) AsMap() map[string]interface{} {
+	return util.DeepCopyMap(t.data)
 }

@@ -3,16 +3,14 @@
 source .env
 
 # Delete deployments
-kubectl delete namespace collie-server collie-agent
+kubectl delete namespace collie-server collie-agent --wait=true
 sleep 30
 
 minikube image rm collie.azurecr.io/collie-api-server:1
 minikube image rm collie.azurecr.io/collie-agent:1
 
 # clear data
-ORG_ID=elastic
-curl -k -u $COLLIE_ES_USERNAME:$COLLIE_ES_PASSWORD -X DELETE "$COLLIE_ES_URL/collie-k8s-$ORG_ID"
-
+source es-recreate-index.sh
 
 # redeploy
 export ES_KEY_B64=$(echo -n $ES_KEY | base64 --wrap=0)
@@ -51,7 +49,8 @@ do
         else
                 echo "$RESP"
                 echo "OK"
-                exit 0
+		kubectl delete namespace collie-agent --wait=true
+		exit 0
         fi
 done
 

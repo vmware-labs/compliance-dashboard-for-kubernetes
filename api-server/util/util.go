@@ -20,6 +20,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"reflect"
 )
 
 func RandomString(n int) string {
@@ -37,4 +38,19 @@ func ToJson(data interface{}) string {
 		return "Error: " + err.Error()
 	}
 	return string(b)
+}
+
+
+func DeepCopyMap(from map[string]interface{}) map[string]interface{} {
+	to := make(map[string]interface{})
+
+	for k, v := range from {
+		if v != nil && reflect.TypeOf(v).Kind() == reflect.Map {
+			valueMap := v.(map[string]interface{})
+			to[k] = DeepCopyMap(valueMap)
+		} else {
+			to[k] = v
+		}
+	}
+	return to
 }

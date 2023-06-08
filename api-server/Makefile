@@ -7,6 +7,10 @@ swagger:
 	go get -u github.com/swaggo/swag/cmd/swag
 	swag init
 
+checkupdate:
+	go list -u -m all
+update:
+	go get -u
 generate:
 	go generate ./...
 

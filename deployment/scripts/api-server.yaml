@@ -54,6 +54,7 @@ metadata:
     app.kubernetes.io/managed-by: collie
 
 data:
+  OAUTH_PORTAL: ${OAUTH_PORTAL}
   API_URL: ${API_URL}
   ES_URL: ${ES_URL}
 ---

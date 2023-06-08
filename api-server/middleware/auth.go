@@ -35,7 +35,7 @@ func handleAuth(c *gin.Context) bool {
 	if token == "" {
 		t, err := c.Request.Cookie("auth")
 		if err != nil {
-			log.Printf("auth failed. token=%s, err=%s", token, err.Error())
+			//log.Printf("auth failed. token=%s, err=%s", token, err.Error())
 			return false
 		}
 		t2, err := url.QueryUnescape(t.Value)
@@ -56,7 +56,6 @@ func handleAuth(c *gin.Context) bool {
 }
 
 func RedirectToLoginOnAuthFailure(c *gin.Context) {
-	log.Printf("RedirectToLoginOnAuthFailure")
 	if handleAuth(c) {
 		c.Next()
 	} else {

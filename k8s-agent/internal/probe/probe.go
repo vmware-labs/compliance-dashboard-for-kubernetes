@@ -19,6 +19,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
@@ -63,7 +64,10 @@ func (p *Probe) DiscoverCluster() error {
 	log := p.log
 
 	log.Info("DiscoverCluster start")
+
+	startTime := time.Now()
 	defer func() {
+		p.cc.DeleteOldDoc(startTime, "cluster")
 		log.Info("DiscoverCluster exit")
 	}()
 
@@ -92,7 +96,9 @@ func (p *Probe) DiscoverResources() error {
 	log := p.log
 
 	log.Info("DiscoverResources start")
+	startTime := time.Now()
 	defer func() {
+		p.cc.DeleteOldDoc(startTime, "resource")
 		log.Info("DiscoverResources exit")
 	}()
 

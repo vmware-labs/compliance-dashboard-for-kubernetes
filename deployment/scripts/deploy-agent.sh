@@ -1,3 +1,3 @@
 #!/bin/bash
 
-curl -skH "Authorization: Token f7340bab6c7ce2b213e90040902993f0" "https://collie.eng.vmware.com/collie/api/v1/onboarding/agent.yaml?provider=AKS&aid=24f74f798f0884c7" | kubectl apply -f -
+curl -skH "Authorization: Bearer elastic:16b9f5de2c23718edbf713731584fbb3" "https://collie.eng.vmware.com/collie/api/v1/onboarding/agent.yaml?provider=AKS&aid=a63aefd2af7028be" | kubectl apply -f -

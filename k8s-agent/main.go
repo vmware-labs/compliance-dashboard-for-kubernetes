@@ -139,6 +139,10 @@ func loop(ctx context.Context, log *logrus.Entry, cfg config.Config, clientset *
 		if err != nil {
 			cc.ReportError("DiscoverCompliance", "", err)
 		}
+		err = p.DiscoverComplianceForHunter()
+		if err != nil {
+			cc.ReportError("DiscoverComplianceForHunter", "", err)
+		}
 
 		cc.ReportCompletion()
 		log.Infoln("Sleeping")

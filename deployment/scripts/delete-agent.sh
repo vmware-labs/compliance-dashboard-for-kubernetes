@@ -1,6 +1,6 @@
 #!/bin/bash
 
-kubectl delete namespace collie-agent
+kubectl delete namespace collie-agent --wait=true
 
 
 

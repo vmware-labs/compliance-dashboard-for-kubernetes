@@ -17,6 +17,7 @@ package reporter
 
 import (
 	"bytes"
+	"fmt"
 	"context"
 	"encoding/json"
 	"strings"
@@ -110,8 +111,56 @@ func (cc CollieClient) reportImpl(indexPrefix string, docType string, resName st
 		Do(context.Background())
 
 	if err != nil {
+		//log.Infof("Doc: %s", string(buf))
 		log.Warnf("Error adding document: type=%s, res=%s, %s", docType, resName, err)
 	} else {
+		//log.Infof("Doc: %s", string(buf))
 		log.Infof("reportImpl: OK.  type=%s, res=%s, result=%s", docType, resName, res.Result)
+	}
+}
+
+func (cc CollieClient) deleteDocumentsBeforeTimestamp(indexPrefix string, timestamp time.Time, docType string) {
+	
+	log := cc.Log
+	indexName := indexPrefix + cc.orgId
+
+	// Define the query to match documents before the given timestamp
+	query := fmt.Sprintf(`{
+		"query": {
+			"bool": {
+				"must": [
+					{
+						"range": {
+							"@timestamp": {
+								"lt": "%s"
+							}
+						}
+					},
+					{
+						"term": {
+							"a": "%s"
+						}
+					}
+				],
+				"filter": [
+					{
+						"exists": {
+							"field": "%s"
+						}
+					}
+				]
+			}
+		}
+	}`, timestamp.Format(time.RFC3339), cc.agentId, docType)
+
+	log.Printf("deleteDocumentsBeforeTimestamp(%s) - start...", docType)
+	resp, err := cc.es.DeleteByQuery([]string{indexName}, strings.NewReader(query))
+
+	if err != nil {
+		log.Printf("deleteDocumentsBeforeTimestamp(%s) - Error: %s", docType, err.Error())
+	} else if resp.IsError() {
+		log.Printf("deleteDocumentsBeforeTimestamp(%s) - Error: %s", docType, resp.String())
+	} else {
+		log.Printf("deleteDocumentsBeforeTimestamp(%s) - success: %s", docType, resp.String())
 	}
 }

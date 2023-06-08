@@ -18,6 +18,7 @@ package probe
 import (
 	"bytes"
 	"context"
+	"time"
 	_ "embed"
 	"errors"
 	"io"
@@ -35,7 +36,9 @@ func (p *Probe) DiscoverCompliance() error {
 	log := p.log
 
 	log.Info("DiscoverCompliance start")
+	startTime := time.Now()
 	defer func() {
+		p.cc.DeleteOldDoc(startTime, "compliance")
 		log.Info("DiscoverCompliance exit")
 	}()
 

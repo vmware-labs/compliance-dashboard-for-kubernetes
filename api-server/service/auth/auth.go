@@ -19,6 +19,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"strings"
 
 	lru "k8s.io/utils/lru"
@@ -44,7 +45,6 @@ func generateRandToken(length int) string {
 }
 
 func Authenticate(token string) (AuthInfo, error) {
-
 	token = strings.TrimPrefix(token, "Bearer ")
 	token = strings.TrimPrefix(token, "Token ")
 
@@ -66,13 +66,15 @@ func Authenticate(token string) (AuthInfo, error) {
 		if err != nil {
 			return nil, err
 		}
-		return FromJwt(t), nil
+		t["orgId"] = "csp/" + t["context_name"].(string)
+		return FromMap(t), nil
 	} else if provider == "gitlab" {
 		t, err := gitlab.Validate(code)
 		if err != nil {
 			return nil, err
 		}
-		return FromJwt(t), nil
+		t["orgId"] = "gitlab/" + fmt.Sprintf("%v", t["id"])
+		return FromMap(t), nil
 	} else {
 		return nil, errors.New("Invalid auth provider: " + provider)
 	}

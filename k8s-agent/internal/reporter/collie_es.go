@@ -187,7 +187,8 @@ func (cc CollieClient) esInfo() error {
 }
 
 func (cc CollieClient) ReportClusterInfo(info model.ClusterInfo) {
-	cc.reportImpl(indexPrefix, "cluster", "", info)
+	docType := "cluster"
+	cc.reportImpl(indexPrefix, docType, "", info)
 }
 
 func (cc CollieClient) ReportResource(name string, data interface{}) {
@@ -383,4 +384,9 @@ func (cc CollieClient) ReportCompletion() {
 	fmt.Println("  RemoteAddr    :", ti.RemoteAddr)
 
 	cc.ReportActivity("cycle-complete", "")
+}
+
+
+func (cc CollieClient) DeleteOldDoc(before time.Time, docType string) {
+	cc.deleteDocumentsBeforeTimestamp(indexPrefix, before, docType)
 }
