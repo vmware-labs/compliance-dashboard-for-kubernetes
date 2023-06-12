@@ -10,6 +10,15 @@ The Compliance Dashboard for Kubernetes consists of:
 * An Elasticsearch backend for persist.
 * An api server to connect all the above together.
 
+![Dashboard](doc/images/screenshot-dashboard.png?raw=true)
+
+### Plugins On Roadmap
+* [kube-bench](https://github.com/aquasecurity/kube-bench)
+* [kube-hunter](https://github.com/aquasecurity/kube-hunter)
+* [kube-score](https://github.com/zegl/kube-score)
+* [kube-linter](https://github.com/stackrox/kube-linter)
+* Collie Analysis
+
 
 ## Try it out
 
