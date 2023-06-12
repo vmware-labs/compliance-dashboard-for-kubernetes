@@ -3,9 +3,9 @@
 ORG_ID=elastic
 INDEX_URL=$ES_URL/collie-k8s-$ORG_ID
 
-curl -k -u $ES_USERNAME:$ES_PASSWORD -X DELETE "$INDEX_URL"
+curl -k -u $ES_KEY -X DELETE "$INDEX_URL"
 
-curl -k -u $ES_USERNAME:$ES_PASSWORD -X PUT -H "Content-Type: application/json" -d '
+curl -k -u $ES_KEY -X PUT -H "Content-Type: application/json" -d '
 {
   "mappings": {
     "properties": {

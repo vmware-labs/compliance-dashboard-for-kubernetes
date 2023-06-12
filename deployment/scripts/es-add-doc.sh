@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -k -u $ES_USERNAME:$ES_PASSWORD -X POST -H "Content-Type: application/json" -d '
+curl -k -u $ES_KEY -X POST -H "Content-Type: application/json" -d '
 {
   "field1": "value1",
   "field2": "value2",

@@ -1,0 +1,53 @@
+# values.yaml
+
+## Grafana configuration
+service:
+  type: ClusterIP
+  port: 3000
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - collie.local
+  paths:
+    - /
+adminUser: admin
+adminPassword: admin
+
+
+## Elasticsearch datasource configuration
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: es-collie-k8s-elastic
+        type: elasticsearch
+        access: proxy
+        url: https://elasticsearch-master:9200
+        database: collie-k8s-elastic
+        basicAuth: true
+        basicAuthUser: elastic
+        isDefault: true
+        readOnly: false
+        editable: true
+        jsonData:
+          esVersion: 8
+          tlsSkipVerify: true
+        secureJsonData:
+          basicAuthPassword: ${ES_PASSWORD}
+
+grafana.ini:
+  auth.anonymous:
+    enabled: true
+    org_name: "Main Org." # Change it to the name of your default organization
+    org_role: "Viewer"   # The role assigned to anonymous users in the organization
+
+dashboards:
+  default:
+  # some-dashboard:
+  #   json: |
+  #     $RAW_JSON
+    custom-dashboard:
+      file: dashboards/custom-dashboard.json
+      

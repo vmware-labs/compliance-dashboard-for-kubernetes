@@ -1,0 +1,1369 @@
+{
+  "folderUid": "",
+  "inputs": [],
+  "overwrite": true,
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "P5F007039032DC520"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "a"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 162
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 11,
+          "x": 0,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.5.3",
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "settings": {
+                  "size": "500"
+                },
+                "type": "raw_data"
+              }
+            ],
+            "query": "_exists_:cluster",
+            "refId": "A",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "Clusters",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "_id": true,
+                "_index": true,
+                "_type": true,
+                "highlight": true,
+                "sort": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "a": "Agent",
+                "c": "Cluster"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "P5F007039032DC520"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "report.severity"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "": {
+                          "color": "#808080",
+                          "index": 1,
+                          "text": "Unknown"
+                        },
+                        "good": {
+                          "color": "green",
+                          "index": 0,
+                          "text": "Good"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "custom.width",
+                  "value": 75
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "report.reason"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 98
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "profile"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 100
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "rule.id"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 319
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "rule.description"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 200
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "target.kind"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 120
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Severity"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 138
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "data.namespace"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 190
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "orgId"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 146
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Agent"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 166
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "d.operation"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 125
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 7,
+          "x": 11,
+          "y": 0
+        },
+        "id": 8,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.5.3",
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "settings": {
+                  "size": "500"
+                },
+                "type": "raw_data"
+              }
+            ],
+            "query": "_exists_:activity",
+            "refId": "A",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "Activity Log",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "@timestamp": false,
+                "_id": true,
+                "_index": true,
+                "_type": true,
+                "d.category": true,
+                "d.count": true,
+                "d.description": true,
+                "d.eventTime": true,
+                "d.firstTimestamp": true,
+                "d.involvedObject.apiVersion": true,
+                "d.involvedObject.kind": true,
+                "d.involvedObject.name": true,
+                "d.involvedObject.namespace": true,
+                "d.involvedObject.resourceVersion": true,
+                "d.involvedObject.uid": true,
+                "d.lastTimestamp": true,
+                "d.metadata.creationTimestamp": true,
+                "d.metadata.managedFields": true,
+                "d.metadata.name": true,
+                "d.metadata.namespace": true,
+                "d.metadata.resourceVersion": true,
+                "d.metadata.uid": true,
+                "d.plugin": true,
+                "d.reason": true,
+                "d.remediation": true,
+                "d.reportingComponent": true,
+                "d.reportingInstance": true,
+                "d.resource": false,
+                "d.ruleId": true,
+                "d.source.component": true,
+                "d.source.host": true,
+                "d.status": true,
+                "d.subcategory": true,
+                "d.type": true,
+                "highlight": true,
+                "sort": true,
+                "t": true,
+                "uid": true,
+                "vulnerability_url": true
+              },
+              "indexByName": {
+                "@timestamp": 0,
+                "_id": 1,
+                "_index": 2,
+                "_type": 3,
+                "a": 6,
+                "c": 7,
+                "d.category": 10,
+                "d.count": 11,
+                "d.description": 12,
+                "d.error": 13,
+                "d.eventTime": 14,
+                "d.firstTimestamp": 15,
+                "d.involvedObject.apiVersion": 16,
+                "d.involvedObject.kind": 17,
+                "d.involvedObject.name": 18,
+                "d.involvedObject.namespace": 19,
+                "d.involvedObject.resourceVersion": 20,
+                "d.involvedObject.uid": 21,
+                "d.lastTimestamp": 22,
+                "d.message": 23,
+                "d.metadata.creationTimestamp": 24,
+                "d.metadata.managedFields": 25,
+                "d.metadata.name": 26,
+                "d.metadata.namespace": 27,
+                "d.metadata.resourceVersion": 28,
+                "d.metadata.uid": 29,
+                "d.operation": 8,
+                "d.plugin": 30,
+                "d.reason": 31,
+                "d.remediation": 32,
+                "d.reportingComponent": 33,
+                "d.reportingInstance": 34,
+                "d.resource": 35,
+                "d.ruleId": 36,
+                "d.source.component": 37,
+                "d.source.host": 38,
+                "d.status": 39,
+                "d.subcategory": 40,
+                "d.type": 41,
+                "highlight": 4,
+                "sort": 5,
+                "t": 9
+              },
+              "renameByName": {
+                "a": "Agent",
+                "c": "Cluster",
+                "category": "Category",
+                "class": "Class",
+                "compliance-description": "Compliance Description",
+                "details": "Details",
+                "project-id": "Project ID",
+                "result": "Result",
+                "rule-id": "Rule ID",
+                "severity": "Severity",
+                "sub-category": "Sub-category",
+                "type": "Type"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "P5F007039032DC520"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "#808080",
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "WARN"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "yellow",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "PASS"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "FAIL"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        },
+        "id": 10,
+        "options": {
+          "displayLabels": [
+            "value"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "sortBy": "Value",
+            "sortDesc": true,
+            "values": [
+              "value"
+            ]
+          },
+          "pieType": "pie",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [
+              {
+                "field": "compliance.status.keyword",
+                "id": "2",
+                "settings": {
+                  "min_doc_count": "1",
+                  "order": "desc",
+                  "orderBy": "_term",
+                  "size": "10"
+                },
+                "type": "terms"
+              }
+            ],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "type": "count"
+              }
+            ],
+            "query": "_exists_:compliance AND compliance.status:WARN",
+            "refId": "WARN",
+            "timeField": "@timestamp"
+          },
+          {
+            "alias": "",
+            "bucketAggs": [
+              {
+                "field": "compliance.status.keyword",
+                "id": "2",
+                "settings": {
+                  "min_doc_count": "1",
+                  "order": "desc",
+                  "orderBy": "_term",
+                  "size": "10"
+                },
+                "type": "terms"
+              }
+            ],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "hide": false,
+            "metrics": [
+              {
+                "id": "1",
+                "type": "count"
+              }
+            ],
+            "query": "_exists_:compliance AND compliance.status:FAIL",
+            "refId": "FAIL",
+            "timeField": "@timestamp"
+          },
+          {
+            "alias": "",
+            "bucketAggs": [
+              {
+                "field": "compliance.status.keyword",
+                "id": "2",
+                "settings": {
+                  "min_doc_count": "1",
+                  "order": "desc",
+                  "orderBy": "_term",
+                  "size": "10"
+                },
+                "type": "terms"
+              }
+            ],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "hide": false,
+            "metrics": [
+              {
+                "id": "1",
+                "type": "count"
+              }
+            ],
+            "query": "_exists_:compliance AND compliance.status:PASS",
+            "refId": "PASS",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "Status",
+        "type": "piechart"
+      },
+      {
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 6
+        },
+        "id": 4,
+        "title": "Details",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "P5F007039032DC520"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Status"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "FAIL": {
+                          "color": "red",
+                          "index": 2,
+                          "text": "FAIL"
+                        },
+                        "PASS": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "PASS"
+                        },
+                        "WARN": {
+                          "color": "yellow",
+                          "index": 0,
+                          "text": "WARN"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "cid"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 76
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rule ID"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 91
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Status"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 84
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "@timestamp"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 162
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Category"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 170
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Subcategory"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 207
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Remediation"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 444
+                },
+                {
+                  "id": "custom.inspect",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Description"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 309
+                },
+                {
+                  "id": "custom.inspect",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cluster"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 105
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Plugin"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 112
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rule"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 83
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Agent ID"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 92
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 7,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.5.3",
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "settings": {
+                  "size": "500"
+                },
+                "type": "raw_data"
+              }
+            ],
+            "query": "_exists_:compliance",
+            "refId": "A",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "K8S Compliance",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "@timestamp": false,
+                "_id": true,
+                "_index": true,
+                "_type": true,
+                "highlight": true,
+                "sort": true,
+                "t": true,
+                "uid": true,
+                "vulnerability_url": true
+              },
+              "indexByName": {
+                "@timestamp": 0,
+                "_id": 1,
+                "_index": 2,
+                "_type": 3,
+                "a": 6,
+                "c": 7,
+                "compliance.category": 12,
+                "compliance.description": 15,
+                "compliance.plugin": 9,
+                "compliance.remediation": 14,
+                "compliance.ruleId": 10,
+                "compliance.status": 11,
+                "compliance.subcategory": 13,
+                "highlight": 4,
+                "sort": 5,
+                "t": 8
+              },
+              "renameByName": {
+                "@timestamp": "Time",
+                "a": "Agent ID",
+                "c": "Cluster ID",
+                "category": "Category",
+                "cid": "Cluster",
+                "class": "Class",
+                "compliance-description": "Compliance Description",
+                "compliance.category": "Category",
+                "compliance.description": "Description",
+                "compliance.plugin": "Plugin",
+                "compliance.remediation": "Remediation",
+                "compliance.ruleId": "Rule",
+                "compliance.status": "Status",
+                "compliance.subcategory": "Subcategory",
+                "d.category": "Category",
+                "d.description": "Description",
+                "d.plugin": "Plugin",
+                "d.reason": "Reason",
+                "d.remediation": "Remediation",
+                "d.ruleId": "Rule ID",
+                "d.status": "Status",
+                "d.subcategory": "Subcategory",
+                "details": "Details",
+                "project-id": "Project ID",
+                "result": "Result",
+                "rule-id": "Rule ID",
+                "severity": "Severity",
+                "sub-category": "Sub-category",
+                "type": "Type"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "P5F007039032DC520"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "report.severity"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "": {
+                          "color": "#808080",
+                          "index": 1,
+                          "text": "Unknown"
+                        },
+                        "good": {
+                          "color": "green",
+                          "index": 0,
+                          "text": "Good"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "custom.width",
+                  "value": 75
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "report.reason"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 98
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "profile"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 100
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "rule.id"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 319
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "rule.description"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 200
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "target.kind"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 120
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Severity"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 138
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "data.namespace"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 190
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "orgId"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 146
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "metadata.labels.component"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 175
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "a"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 161
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 21
+        },
+        "id": 2,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.5.3",
+        "targets": [
+          {
+            "alias": "",
+            "bucketAggs": [],
+            "datasource": {
+              "type": "elasticsearch",
+              "uid": "P5F007039032DC520"
+            },
+            "metrics": [
+              {
+                "id": "1",
+                "settings": {
+                  "size": "500"
+                },
+                "type": "raw_data"
+              }
+            ],
+            "query": "_exists_:resource",
+            "refId": "A",
+            "timeField": "@timestamp"
+          }
+        ],
+        "title": "K8S Resources",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "@timestamp": true,
+                "_id": true,
+                "_index": true,
+                "_type": true,
+                "highlight": true,
+                "sort": true,
+                "uid": true,
+                "vulnerability_url": true
+              },
+              "indexByName": {
+                "@timestamp": 0,
+                "_id": 4,
+                "_index": 5,
+                "_type": 6,
+                "category": 9,
+                "class": 8,
+                "compliance-description": 12,
+                "details": 11,
+                "highlight": 13,
+                "project-id": 1,
+                "result": 7,
+                "rule-id": 3,
+                "severity": 14,
+                "sort": 15,
+                "sub-category": 10,
+                "type": 2
+              },
+              "renameByName": {
+                "a": "Agent",
+                "c": "Cluster",
+                "category": "Category",
+                "class": "Class",
+                "compliance-description": "Compliance Description",
+                "details": "Details",
+                "project-id": "Project ID",
+                "result": "Result",
+                "rule-id": "Rule ID",
+                "severity": "Severity",
+                "sub-category": "Sub-category",
+                "type": "Type"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      }
+    ],
+    "refresh": "",
+    "revision": 1,
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "Orz0P-84k"
+          },
+          "filters": [
+          ],
+          "hide": 0,
+          "name": "Filters",
+          "skipUrlSync": false,
+          "type": "adhoc"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-30d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "K8S Compliance Report",
+    "uid": "qIbLYbT4z",
+    "version": 2,
+    "weekStart": ""
+  }
+}

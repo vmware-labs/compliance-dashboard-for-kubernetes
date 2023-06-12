@@ -24,6 +24,7 @@ import (
 
 	lru "k8s.io/utils/lru"
 
+	"collie-api-server/config"
 	"collie-api-server/service/oauth/csp"
 	"collie-api-server/service/oauth/gitlab"
 )
@@ -99,7 +100,8 @@ func GenerateApiKey(authInfo AuthInfo) string {
 }
 
 func GenerateEsKey(authInfo AuthInfo) string {
-	esUser := authInfo.OrgId()
-	esPwd := "asdfasdf" //TODO
-	return esUser + ":" + esPwd
+	//esUser := authInfo.OrgId()
+	//esPwd := "gen"
+	//return esUser + ":" + esPwd
+	return config.Get().EsKey
 }

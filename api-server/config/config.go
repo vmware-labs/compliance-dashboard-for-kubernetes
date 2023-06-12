@@ -18,6 +18,7 @@ package config
 import (
 	"fmt"
 	"log"
+	"net/url"
 	"reflect"
 	"strings"
 	"sync"
@@ -34,6 +35,7 @@ type Config struct {
 	HealthzPort int         `mapstructure:"healthz_port"`
 
 	AgentImage string `mapstructure:"agent_image"`
+	CollieURL  string `mapstructure:"collie_url"`
 	ApiURL     string `mapstructure:"api_url"`
 	EsURL      string `mapstructure:"es_url"`
 	EsKey      string `mapstructure:"es_key"`
@@ -96,6 +98,27 @@ func Get() Config {
 		cfg.Log.Level = int(logrus.InfoLevel)
 	}
 
+	required(cfg.CollieURL, "COLLIE_URL")
+	cfg.CollieURL = strings.TrimSuffix(cfg.CollieURL, "/")
+	if cfg.ApiURL == "" {
+		cfg.ApiURL = cfg.CollieURL + "/collie"
+	}
+	if cfg.EsURL == "" {
+		// Parse the URL
+		parsedURL, err := url.Parse(cfg.CollieURL)
+		if err != nil {
+			panic("Error parsing COLLIE_URL:" + err.Error())
+		}
+		//remove port if any, add new port 9200
+		parsedURL.Host = fmt.Sprintf("%s:%d", parsedURL.Hostname(), 9200)
+		parsedURL.Path = ""
+		parsedURL.Scheme = "https"
+		cfg.EsURL = parsedURL.String()
+	}
+	if cfg.EsKey == "" {
+		log.Printf("ES_KEY not specified, try using ES secret")
+		cfg.EsKey = Require("username") + ":" + Require("password")
+	}
 	required(cfg.ApiURL, "API_URL")
 	required(cfg.EsURL, "ES_URL")
 	required(cfg.AgentImage, "AGENT_IMAGE")

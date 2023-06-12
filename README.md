@@ -5,24 +5,71 @@ A K8s compliance checker aggregator with a dashboard and analyzer of K8s complia
 
 ## How it works
 The Compliance Dashboard for Kubernetes consists of:
+* A agent to be deployed to the target kubernetes, and report details.
 * A web portal based on Grafana to visualize the findings.
 * An Elasticsearch backend for persist.
-* A agent to be deployed to the target kubernetes, and report details.
 * An api server to connect all the above together.
 
 
 ## Try it out
-WIP
 
 ### Prerequisites
-WIP
+On Mac:
 
+* Approach 1 - Automated approach, try the [preparation script](deployment/helm-charts/prep.sh)
+
+* Approach 2 - Manual installation:
+  - Install homebrew: https://brew.sh/
+  - Install/upgrade kubectl: https://formulae.brew.sh/formula/kubernetes-cli
+    ``` 
+    brew upgrade kubectl
+    brew link --overwrite kubernetes-cli
+    ```
+  - Install/update minikube: https://minikube.sigs.k8s.io/docs/start/
+    ```
+    brew unlink minikube
+    brew install minikube
+    brew link minikube
+    ```
+  - Config and start minikube
+    ```
+    minikube config set cpus 4
+    minikube config set memory 4096
+    minikube start
+    minikube addons enable default-storageclass
+    minikube addons enable storage-provisioner
+    minikube addons enable ingress
+    ```
+  - Install helm chart: https://helm.sh/docs/intro/quickstart/
+    ```
+    brew install helm
+    helm repo add grafana https://grafana.github.io/helm-charts
+    helm repo add elastic https://helm.elastic.co
+    helm repo update
+    ```
 ### Build & Run
-WIP
 
-## Documentation
-WIP
+To run prebuilt images in local environment:
 
+1. Identify local PC public IP, e.g. via ifconfig.
+2. Add a DNS record "collie.local" to that IP in /etc/hosts file
+3. Run the deployment script, which deploys all components and forward ports to local host properly.
+```
+cd deployment/helm-charts
+
+./deploy-all.sh
+```
+4. Open browser:
+    ```
+    http://collie.local:8080/collie/portal/login
+    ``` 
+    ![Login](doc/images/screenshot-login.png?raw=true)
+5. Copy agent installation script from the UI, and execute the script to install the againt. The script is a kubectl command to deploy the agent. You may run on any k8s that can connects to your pc.
+   ![Agent Pairing](doc/images/screenshot-pairing.png?raw=true)
+6. After the agent starts and paired, dashboard button is enabled on the UI page.
+    ![Agent Paired](doc/images/screenshot-paired.png?raw=true)
+7. Click the button to open the dashboard
+    ![Dashboard](doc/images/screenshot-dashboard.png?raw=true)
 ## Contributing
 
 The compliance-dashboard-for-kubernetes project team welcomes contributions from the community. Before you start working with compliance-dashboard-for-kubernetes, please read and sign our Contributor License Agreement CLA. If you wish to contribute code and you have not signed our contributor license agreement (CLA), our bot will prompt you to do so when you open a Pull Request. For any questions about the CLA process, please refer to our FAQ.

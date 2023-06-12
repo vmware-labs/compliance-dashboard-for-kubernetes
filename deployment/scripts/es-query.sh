@@ -3,7 +3,7 @@
 ORG_ID=elastic
 INDEX_URL=$ES_URL/collie-k8s-$ORG_ID/_search
 
-curl -k -u $ES_USERNAME:$ES_PASSWORD -XGET -H "Content-Type: application/json" -d '{
+curl -k -u $ES_KEY -XGET -H "Content-Type: application/json" -d '{
 		"query": {
 			"bool": {
 				"must": [

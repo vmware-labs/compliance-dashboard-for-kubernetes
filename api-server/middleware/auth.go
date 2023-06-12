@@ -28,7 +28,7 @@ import (
 	authSvc "collie-api-server/service/auth"
 )
 
-var loginUrl string = config.Require("oauth.portal") + "/collie/portal/login"
+var loginUrl string = config.Require("oauth.hostUrl") + "/collie/portal/login"
 
 func handleAuth(c *gin.Context) bool {
 	token := c.GetHeader("Authorization")

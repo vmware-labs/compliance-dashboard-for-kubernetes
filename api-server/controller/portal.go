@@ -31,7 +31,7 @@ import (
 	"collie-api-server/service/org"
 )
 
-var homeUrl string = config.Require("oauth.portal") + "/collie/portal"
+var homeUrl string = config.Require("collie.url") + "/collie/portal"
 
 func (c *Controller) PortalIndex(ctx *gin.Context) {
 

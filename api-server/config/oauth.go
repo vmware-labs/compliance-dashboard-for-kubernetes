@@ -79,15 +79,15 @@ func dumpEnv() {
 	}
 }
 
-func getEnviron(prefix string) map[string]string {
+func getEnviron() map[string]string {
 	m := map[string]string{}
-	prefix = prefix + "_"
+	//prefix = prefix + "_"
 	for _, e := range os.Environ() {
 		if i := strings.Index(e, "="); i >= 0 {
 			k := strings.ToLower(e[:i])
-			if !strings.HasPrefix(k, prefix) {
-				continue
-			}
+			//if !strings.HasPrefix(k, prefix) {
+			//	continue
+			//}
 
 			k = strings.ReplaceAll(k, "_", ".")
 			v := e[i+1:]
@@ -130,7 +130,7 @@ func loadOAuthConfig() map[string]string {
 
 	//Override with env variables. The default viper.AutomaticEnv handles env with only
 	//the top level keys, but we want a hierarchy in the yaml config file.
-	env := getEnviron("oauth")
+	env := getEnviron()
 	for k, v := range env {
 		//log.Println("ENV", k, v)
 		cfg[k] = v

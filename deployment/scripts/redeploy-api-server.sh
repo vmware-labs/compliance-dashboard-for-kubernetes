@@ -2,6 +2,27 @@
 
 source .env
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        B64CMD="base64 --wrap=0"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        B64CMD="base64"
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+        echo "TODO: OSTYPE cygwin"
+	exit 1
+elif [[ "$OSTYPE" == "msys" ]]; then
+        echo "TODO: OSTYPE msys"
+	exit 1
+elif [[ "$OSTYPE" == "win32" ]]; then
+        echo "TODO: OSTYPE win32"
+	exit 1
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+        echo "TODO: OSTYPE freebsd"
+	exit 1
+else
+	echo "TODO: unknown OSTYPE "$OSTYPE
+	exit 1
+fi
+
 # Delete deployments
 kubectl delete namespace collie-server collie-agent --wait=true
 sleep 30
@@ -14,10 +35,10 @@ source es-recreate-index.sh
 
 # redeploy
 export ES_KEY_B64=$(echo -n $ES_KEY | base64 --wrap=0)
-export OAUTH_CSP_CLIENTID_B64=$(echo -n $OAUTH_CSP_CLIENTID | base64 --wrap=0)
-export OAUTH_CSP_CLIENTSECRET_B64=$(echo -n $OAUTH_CSP_CLIENTSECRET | base64 --wrap=0)
-export OAUTH_GITLAB_CLIENTID_B64=$(echo -n $OAUTH_GITLAB_CLIENTID | base64 --wrap=0)
-export OAUTH_GITLAB_CLIENTSECRET_B64=$(echo -n $OAUTH_GITLAB_CLIENTSECRET | base64 --wrap=0)
+export OAUTH_CSP_CLIENTID_B64=$(echo -n $OAUTH_CSP_CLIENTID | $B64CMD)
+export OAUTH_CSP_CLIENTSECRET_B64=$(echo -n $OAUTH_CSP_CLIENTSECRET | $B64CMD)
+export OAUTH_GITLAB_CLIENTID_B64=$(echo -n $OAUTH_GITLAB_CLIENTID | $B64CMD)
+export OAUTH_GITLAB_CLIENTSECRET_B64=$(echo -n $OAUTH_GITLAB_CLIENTSECRET | $B64CMD)
 
 envsubst < api-server.yaml | kubectl apply -f -
 kubectl wait deployment -n collie-server api-server --for condition=Available=True --timeout=90s
