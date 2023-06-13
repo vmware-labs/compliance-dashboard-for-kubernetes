@@ -15,10 +15,12 @@ export ES_PASSWORD=$(kubectl get -n collie-server secret/elasticsearch-master-cr
 ES_USER=$(kubectl get -n collie-server secret/elasticsearch-master-credentials -o jsonpath="{.data.username}" | base64 -d)
 
 ES_AUTH=$ES_USER:$ES_PASSWORD
-ES_URL=https://collie.local:9200
+ES_URL=https://collie-dev.org:9200
 
 echo ES_AUTH: $ES_AUTH
 Echo Forwarding ES in background...
+
+source ./kill-processes-by-keyword.sh "kubectl port-forward -n collie-server --address 0.0.0.0 services/elasticsearch-master"
 kubectl port-forward -n collie-server --address 0.0.0.0 services/elasticsearch-master 9200:9200 &
 
 sleep 5

@@ -12,7 +12,7 @@
     position: absolute;
     margin: auto;
     height: 500px;
-    width: 300px;
+    width: 400px;
     font-family: Metropolis,"Avenir Next","Helvetica Neue",Arial,sans-serif;
 }
 h2 {
@@ -20,14 +20,14 @@ h2 {
 }
 
 .myButton {
-    background-color: #9fb5f4;
+    background-color: #5b75ea;
     border: none;
     color: white;
     padding: 12px 40px;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
     display: inline-block;
-    font-size: 22px;
+    font-size: 18px;
     border-radius: 6px;
     cursor: pointer;
     width: 250px;
@@ -44,13 +44,20 @@ h2 {
 
 .btnIcon {
     vertical-align: sub;
-    height: 28px;
-    width: 28px;
+    height: 22px;
+    width: 22px;
 }
 </style>
 <body>
     <div class="center">
-        <h2>Collie Dashboard for K8s</h2>
+        <h2>Compliance Dashboard for K8s</h2>
+        <br/><br/>
+        <button class='myButton' id="btnLoginGoogle" onclick="loginGoogle()">
+            <span>
+                <img class='btnIcon' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACdlBMVEVHcEzW1tbIyMiPj4/X19fY2Nja2trJycnR0dGDg4PX19fY2NjX19fV1dXS0tLU1NS5ubnGxsbW1tbT09PU1NTV1dXU1NTOzs6rq6sAAAA5OTkAAAClpaUAAAAAAAAAAACfn5/Jyclra2vKysrU1NTS0tK6urqHh4fT09MhISF+fn5gYGDExMTX19fY2NjZ2dnLy8tGRkYDAwMCAgLCwsJYWFh2dna5ublYWFgoKCgFBQUDAwM0NDSampoFBQXV1dUpKSkGBgYaGhpHR0dnZ2cYGBiCgoIwMDATExNJSUmsrKxFRUW9vb3S0tKtra1XV1cDAwO4uLgCAgK3t7d3d3d3d3fCwsLDw8PS0tI3edc1mVDnRTzurTPR0dHHx8fQ0NDlSD/Pz885mlPU1NTT09O2x7rLq6nS0dHmRj3Lr63VenU6etY5etbmSUBHgdXjWlJJg9bIw8PUx67Xq6jXqjfNsa9jkM/bxZ3tqzPmRTzsmjXblJDiUkrpsEXOz8/XrqzQzsyguaaSrNDkS0PlSUDfeXTTyMjMzMzjXFWatYRBftTkuWl5sonS0M3efHagu6fqsUZGn15Mn2JkktN+rovlTUSCpFi+xMDtrTXblZHIw8KDr4/Oop/S0NCspj/XyrHZjHfcjorIys1Amk/lUUnOravcjIjYqKbha2Vhn4zitmbXwZnOpqTRz8vkblGMp83nRzzS0c/trTbHys99rorqezlZom03edQ2i4vN0M2yxrc8m1aZtqGEr4/Jyso1mFB5sYg7e9ZHgtZnpng2g6o5mFvM0M2xxre1wdK1wtB0mc/Nzc1BnFk2mVFJnmDJycnIyMjKysq4zdbnAAAAWHRSTlMA+0ED6cWN9fsC3M1L8/vc4uvNxfmN8/rWAVoD0A0YFZIqcSpL6cgD6QYBSCllZWVBYQIBKn0CyElAEgE5kgJlQBIGX3EJAzkKX9VhQUvVfBTjFOKjou3tiQM0+gAAAfVJREFUOMtjYKAi0GJiY2VhZGRhZTPgxCKtrseVHAEFyVz6zOjyOtwpEUgghVsZVV6FNwIN8PIgy/uKgMTmLm/Nz81YsmJmG4gngqTCRAwkUt8RDQVTq9OBfDFFmLybEJCbvjAjGgH6QDqEYC61B/GWIUlHNy8Fu0MXIm/GD2QXVwLFE7LSZhWmZSW0rIkFK+CHhIcPkLlxHVC+JjMeJByfOScW6hUmsAJRIKu8YuuGhFKoeCxMPkIUrEAYyOqOialaEIseFhHCYAUaQNaEmJiYIrBYJAwUADmqYAV8QNYmoIK1qAqygRw+sAIOIGsGUEEvqoIcIIcDrEAQyKoFKpiPqiAPyBEEKzAHslbFxJR0ghXEgcApoILJQI4aWIEtkLU6Zt7ipFSY408cBCpoAjIUwAosgKyGaVFRUROhKk4eAsp3bQaytMEKnASAzH6ggqiknl07jx0/cPQIUMF6oKCAJiQyXEDhuyUKAfbv2F5WBxRUgsamhxeQkzgFSUXUykVAIT9XWIJwZwepaJwEk949ux0owG6DSFLO4qA42rfn8Lmks2e27Z0OilVxT6Q0aeTNDnZ/4sULcedPgyON3dAOOdUaW0qgxqOEgzVaxrDyD0ZIB5o6YmYtySCpUJlwDo4wmRCpAEnsuVNaVl5OTl5WmqQsDQB/nu8dxgdWRAAAAABJRU5ErkJggg=="/>
+                Google Login
+            </span>
+        </button>
         <br/><br/>
         <button class='myButton' id="btnLoginCSP" onclick="loginCSP()">
             <span>
@@ -73,6 +80,9 @@ h2 {
     }
     function loginGitlab(event) {
         location.href = "{{.gitlabAuthUrl}}"
+    }
+    function loginGoogle(event) {
+        location.href = "{{.googleAuthUrl}}"
     }
 </script>
 </html>

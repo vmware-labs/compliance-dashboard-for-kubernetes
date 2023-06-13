@@ -54,7 +54,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: collie.local
+    - host: collie-dev.org
       paths:
         - path: /collie
           pathType: Prefix
@@ -91,17 +91,19 @@ tolerations: []
 affinity: {}
 
 collie:
-  url: http://collie.local:8080
+  url: http://collie-dev.org:8080
 
 es:
   #key: "elastic:asdfasdf"
-  url: https://collie.local:9200
+  url: https://collie-dev.org:9200
 
 grafana:
-  url: http://collie.local:3000/d/qIbLYbT4z/k8s-compliance-report"
-  
+  url: http://collie-dev.org:3000/d/qIbLYbT4z/k8s-compliance-report"
+
 oauth:
   csp_clientid: Yf8P6wlAfOEhuF4B1loTokmTcoeTAMu4iDG
   csp_clientsecret: Furuh8PJHQFLBLEpyU0nHjghzfc7jJZ574flSlfedOBGxCFsL1
   gitlab_clientid: 0a47ccd139b6de369ab1fd06723e27be904867f28df8451103db9224b123868a
   gitlab_clientsecret: dd5abd290d6dbe250003fc267a2749ef692f34d18d3e045ba2c43adbfa22b58c
+  google_clientid: 218243888157-3po1jjecgh5nf6ku2lfuhv7i1bu8qvos.apps.googleusercontent.com
+  google_clientsecret: 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

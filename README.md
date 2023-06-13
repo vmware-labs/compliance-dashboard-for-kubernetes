@@ -61,7 +61,7 @@ On Mac:
 To run prebuilt images in local environment:
 
 1. Identify local PC public IP, e.g. via ifconfig.
-2. Add a DNS record "collie.local" to that IP in /etc/hosts file
+2. Add a DNS record "collie-dev.org" to that IP in /etc/hosts file
 3. Run the deployment script, which deploys all components and forward ports to local host properly.
 ```
 cd deployment/helm-charts
@@ -70,7 +70,7 @@ cd deployment/helm-charts
 ```
 4. Open browser:
     ```
-    http://collie.local:8080/collie/portal/login
+    http://collie-dev.org:8080/collie/portal/login
     ``` 
     ![Login](doc/images/screenshot-login.png?raw=true)
 5. Copy agent installation script from the UI, and execute the script to install the againt. The script is a kubectl command to deploy the agent. You may run on any k8s that can connects to your pc.
@@ -79,6 +79,24 @@ cd deployment/helm-charts
     ![Agent Paired](doc/images/screenshot-paired.png?raw=true)
 7. Click the button to open the dashboard
     ![Dashboard](doc/images/screenshot-dashboard.png?raw=true)
+
+    Note: this is a known issue with the default bootstrap, and by default for the first time you will get "Page not found" and "Unauthorized" notification. To workaround it, see the known issue section below.
+
+### Known issue
+To workaround the first-time "Page not found", a one-time operation is needed.
+1. In the opened dashboard, click the right top "Sign in", and sign in using admin/admin
+2. Click left top "Toggle Menu" -> "Administration" -> "Datasources" -> "es-collie-k8s-elastic" -> "Save & test"
+3. Open [dashboard](http://collie-dev.org:3000/d/qIbLYbT4z/k8s-compliance-report?orgId=1) again
+
+### Cleanup local dev environment
+The following script will delete all the deployed k8s resources.
+```
+./delete-all.sh
+```
+or totally destroy the environment:
+```
+minikube delete
+```
 ## Contributing
 
 The compliance-dashboard-for-kubernetes project team welcomes contributions from the community. Before you start working with compliance-dashboard-for-kubernetes, please read and sign our Contributor License Agreement CLA. If you wish to contribute code and you have not signed our contributor license agreement (CLA), our bot will prompt you to do so when you open a Pull Request. For any questions about the CLA process, please refer to our FAQ.

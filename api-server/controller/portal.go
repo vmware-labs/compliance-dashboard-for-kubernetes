@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -28,6 +29,7 @@ import (
 	middleware "collie-api-server/middleware"
 	"collie-api-server/service/oauth/csp"
 	"collie-api-server/service/oauth/gitlab"
+	"collie-api-server/service/oauth/google"
 	"collie-api-server/service/org"
 )
 
@@ -53,6 +55,7 @@ func (c *Controller) PortalLogin(ctx *gin.Context) {
 	data := gin.H{
 		"cspAuthUrl":    csp.GetAuthUrl(),
 		"gitlabAuthUrl": gitlab.GetAuthUrl(),
+		"googleAuthUrl": google.GetAuthUrl(),
 	}
 	ctx.HTML(http.StatusOK, "login.html", data)
 }
@@ -64,8 +67,8 @@ func callback(c *Controller, handleCallback fnCallback, provider string, ctx *gi
 	code := ctx.Query("code")
 	token, err, statusCode := handleCallback(state, code)
 	if err != nil {
+		log.Printf("Auth failed: %s", err.Error())
 		httputil.Abort(ctx, statusCode, err)
-		httputil.Abort(ctx, http.StatusInternalServerError, err)
 	} else {
 		age := int(time.Until(token.Expiry).Seconds())
 		token := provider + "/" + token.AccessToken
@@ -80,6 +83,8 @@ func (c *Controller) OauthCallback(ctx *gin.Context) {
 		callback(c, csp.HandleCallback, provider, ctx)
 	} else if provider == "gitlab" {
 		callback(c, gitlab.HandleCallback, provider, ctx)
+	} else if provider == "google" {
+		callback(c, google.HandleCallback, provider, ctx)
 	} else {
 		httputil.Abort(ctx, http.StatusBadRequest, fmt.Errorf("Unknown provider: %s", provider))
 	}

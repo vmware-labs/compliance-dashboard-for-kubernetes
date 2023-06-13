@@ -27,6 +27,7 @@ import (
 	"collie-api-server/config"
 	"collie-api-server/service/oauth/csp"
 	"collie-api-server/service/oauth/gitlab"
+	"collie-api-server/service/oauth/google"
 )
 
 var (
@@ -75,6 +76,13 @@ func Authenticate(token string) (AuthInfo, error) {
 			return nil, err
 		}
 		t["orgId"] = "gitlab/" + fmt.Sprintf("%v", t["id"])
+		return FromMap(t), nil
+	} else if provider == "google" {
+		t, err := google.Validate(code)
+		if err != nil {
+			return nil, err
+		}
+		t["orgId"] = "google/" + fmt.Sprintf("%v", t["id"])
 		return FromMap(t), nil
 	} else {
 		return nil, errors.New("Invalid auth provider: " + provider)

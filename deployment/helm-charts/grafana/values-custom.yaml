@@ -9,7 +9,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
   hosts:
-    - collie.local
+    - collie-dev.org
   paths:
     - /
 adminUser: admin

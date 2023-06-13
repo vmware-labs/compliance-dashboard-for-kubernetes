@@ -17,3 +17,9 @@ oauth:
     redirectUrl: ${collie.url}/collie/oauth/callback/gitlab
     #clientId: <from-secret>
     #clientSecret: <from-secret>
+  google:
+    authUrl: https://accounts.google.com/o/oauth2/auth
+    tokenUrl: https://accounts.google.com/o/oauth2/token
+    redirectUrl: ${collie.url}/collie/oauth/callback/google
+    #clientId: <from-secret>
+    #clientSecret: <from-secret>
