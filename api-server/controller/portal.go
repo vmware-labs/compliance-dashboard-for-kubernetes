@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"time"
 	"log"
+	"text/template"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -52,12 +53,26 @@ func (c *Controller) PortalIndex(ctx *gin.Context) {
 }
 
 func (c *Controller) PortalLogin(ctx *gin.Context) {
-	data := gin.H{
+	data := map[string]interface{}{
 		"cspAuthUrl":    csp.GetAuthUrl(),
 		"gitlabAuthUrl": gitlab.GetAuthUrl(),
 		"googleAuthUrl": google.GetAuthUrl(),
 	}
-	ctx.HTML(http.StatusOK, "login.html", data)
+	//ctx.HTML(http.StatusOK, "login.html", data)
+	renderTemplate(ctx, "login.html", data)
+}
+
+func renderTemplate(c *gin.Context, templateName string, data gin.H) {
+	tmpl := template.Must(template.ParseFiles("assets/" + templateName))
+
+	// Disable auto-escaping of template variables
+	//tmpl.Option("html").EscapeHTML = false
+
+	err := tmpl.ExecuteTemplate(c.Writer, templateName, data)
+	if err != nil {
+		// Handle the error
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
 }
 
 type fnCallback func(string, string) (*oauth2.Token, error, int)

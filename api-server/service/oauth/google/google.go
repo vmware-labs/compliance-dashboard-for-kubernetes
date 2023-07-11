@@ -24,6 +24,7 @@ import (
 	"net/url"
 
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 
 	"collie-api-server/config"
 	"collie-api-server/service/oauth/common"
@@ -38,10 +39,11 @@ func init() {
 	oauthConfig = &oauth2.Config{
 		ClientID:     config.Require("oauth.google.clientId"),
 		ClientSecret: config.Require("oauth.google.clientSecret"),
-		Endpoint: oauth2.Endpoint{
-			AuthURL:  config.Require("oauth.google.authUrl"),
-			TokenURL: config.Require("oauth.google.tokenUrl"),
-		},
+		Endpoint: google.Endpoint,
+		// oauth2.Endpoint{
+		// 	AuthURL:  config.Require("oauth.google.authUrl"),
+		// 	TokenURL: config.Require("oauth.google.tokenUrl"),
+		// },
 		RedirectURL: config.Require("oauth.google.redirectUrl"),
 		Scopes: []string{
 			"profile",
