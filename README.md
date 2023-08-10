@@ -7,7 +7,7 @@ A K8s compliance checker aggregator with a dashboard and analyzer of K8s complia
 
 ## How it works
 The Compliance Dashboard for Kubernetes consists of:
-* A agent to be deployed to the target kubernetes, and report details.
+* An agent to be deployed to the target kubernetes, and report details.
 * A web portal based on Grafana to visualize the findings.
 * An Elasticsearch backend for persist.
 * An api server to connect all the above together.

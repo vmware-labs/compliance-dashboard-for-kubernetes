@@ -2,7 +2,6 @@ package probe
 
 import (
 	"bytes"
-	"time"
 	"context"
 	"encoding/json"
 	"errors"
@@ -11,6 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"strings"
+	"time"
 
 	"collie-agent/internal/model"
 )

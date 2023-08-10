@@ -17,9 +17,9 @@ package reporter
 
 import (
 	"bytes"
-	"fmt"
 	"context"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -120,7 +120,7 @@ func (cc CollieClient) reportImpl(indexPrefix string, docType string, resName st
 }
 
 func (cc CollieClient) deleteDocumentsBeforeTimestamp(indexPrefix string, timestamp time.Time, docType string) {
-	
+
 	log := cc.Log
 	indexName := indexPrefix + cc.orgId
 

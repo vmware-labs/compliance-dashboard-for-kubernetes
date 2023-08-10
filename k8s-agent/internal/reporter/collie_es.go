@@ -386,7 +386,6 @@ func (cc CollieClient) ReportCompletion() {
 	cc.ReportActivity("cycle-complete", "")
 }
 
-
 func (cc CollieClient) DeleteOldDoc(before time.Time, docType string) {
 	cc.deleteDocumentsBeforeTimestamp(indexPrefix, before, docType)
 }

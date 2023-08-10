@@ -20,7 +20,9 @@ import (
 	"collie-api-server/util"
 	"context"
 	"fmt"
+	"log"
 	"net/http"
+	b64 "encoding/base64"
 
 	"golang.org/x/oauth2"
 	lru "k8s.io/utils/lru"
@@ -35,13 +37,24 @@ func init() {
 
 func GetAuthUrl(oauthConfig *oauth2.Config) string {
 	state := util.RandomString(8)
-	stateLRU.Add(state, nil)
+	codeVerifier := b64encode(util.RandomString(44))
+	stateLRU.Add(state, codeVerifier)
+
+	//codeChallenge := oauth2.SetAuthURLParam("code_challenge", codeVerifier)
+	//codeChallengeMethod := oauth2.SetAuthURLParam("code_challenge_method", "S256")
+
+	//return oauthConfig.AuthCodeURL(state, codeChallenge, codeChallengeMethod)
 	return oauthConfig.AuthCodeURL(state)
+}
+
+func b64encode(val string) string {
+	var RawURLEncoding = b64.URLEncoding.WithPadding(b64.NoPadding)
+	return RawURLEncoding.EncodeToString([]byte(val))
 }
 
 func HandleCallback(oauthConfig *oauth2.Config, state string, code string) (*oauth2.Token, error, int) {
 
-	_, present := stateLRU.Get(state)
+	codeVerifier, present := stateLRU.Get(state)
 	if !present {
 		return nil, fmt.Errorf("Invalid state parameter: %s", state), http.StatusBadRequest
 	}
@@ -52,5 +65,11 @@ func HandleCallback(oauthConfig *oauth2.Config, state string, code string) (*oau
 		return nil, err, http.StatusInternalServerError
 	}
 
+	//log.Println("Callback received, exchange token...")
+	//token, err := oauthConfig.Exchange(context.Background(), code, oauth2.SetAuthURLParam("code_verifier", codeVerifier.(string)))
+	//if err != nil {
+	//	return nil, err, http.StatusInternalServerError
+	//}
+	//log.Println("Auth complete. Token received.")
 	return token, nil, http.StatusOK
 }
