@@ -14,6 +14,8 @@ resources:
 # Request smaller persistent volumes.
 volumeClaimTemplate:
   accessModes: [ "ReadWriteOnce" ]
+  # for minikube: standard
+  # for AKS: managed-csi
   storageClassName: "standard"
   resources:
     requests:
