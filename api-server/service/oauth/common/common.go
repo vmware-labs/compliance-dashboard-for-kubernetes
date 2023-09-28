@@ -20,7 +20,6 @@ import (
 	"collie-api-server/util"
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	b64 "encoding/base64"
 
@@ -54,7 +53,7 @@ func b64encode(val string) string {
 
 func HandleCallback(oauthConfig *oauth2.Config, state string, code string) (*oauth2.Token, error, int) {
 
-	codeVerifier, present := stateLRU.Get(state)
+	_, present := stateLRU.Get(state)
 	if !present {
 		return nil, fmt.Errorf("Invalid state parameter: %s", state), http.StatusBadRequest
 	}
