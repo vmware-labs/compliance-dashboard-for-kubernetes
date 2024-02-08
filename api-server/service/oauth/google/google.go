@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ func init() {
 	oauthConfig = &oauth2.Config{
 		ClientID:     config.Require("oauth.google.clientId"),
 		ClientSecret: config.Require("oauth.google.clientSecret"),
-		Endpoint: google.Endpoint,
+		Endpoint:     google.Endpoint,
 		// oauth2.Endpoint{
 		// 	AuthURL:  config.Require("oauth.google.authUrl"),
 		// 	TokenURL: config.Require("oauth.google.tokenUrl"),
@@ -80,7 +80,7 @@ func HandleCallback(state string, code string) (*oauth2.Token, error, int) {
 func getUserInfo(accessToken string) (map[string]interface{}, error) {
 
 	userInfoUrl := "https://www.googleapis.com/oauth2/v3/userinfo"
-	headers := map[string]string {
+	headers := map[string]string{
 		"Authorization": fmt.Sprintf("Bearer %s", accessToken),
 	}
 	userInfo, err := httpGetJson(userInfoUrl, headers)

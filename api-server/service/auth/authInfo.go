@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,17 +16,17 @@ limitations under the License.
 package auth
 
 import (
-	"reflect"
 	"collie-api-server/util"
+	"reflect"
 )
 
 type AuthInfo interface {
-	OrgId()								string
-	Username()							string
-	Get(name string)					string
-	GetAny(name string)					interface{}
+	OrgId() string
+	Username() string
+	Get(name string) string
+	GetAny(name string) interface{}
 	Set(name string, value interface{})
-	AsMap()								map[string]interface{}
+	AsMap() map[string]interface{}
 }
 
 type defaultAuthInfo struct {

@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,7 @@ import (
 	"github.com/cenkalti/backoff/v4"
 
 	"collie-api-server/config"
+
 	"github.com/elastic/go-elasticsearch/v8"
 )
 

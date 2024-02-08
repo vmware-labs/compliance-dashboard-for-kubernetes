@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,9 @@ package common
 import (
 	"collie-api-server/util"
 	"context"
+	b64 "encoding/base64"
 	"fmt"
 	"net/http"
-	b64 "encoding/base64"
 
 	"golang.org/x/oauth2"
 	lru "k8s.io/utils/lru"

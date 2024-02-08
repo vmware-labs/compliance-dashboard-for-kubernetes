@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,10 @@ limitations under the License.
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // SyncStart godoc

@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,6 @@ func ToJson(data interface{}) string {
 	}
 	return string(b)
 }
-
 
 func DeepCopyMap(from map[string]interface{}) map[string]interface{} {
 	to := make(map[string]interface{})

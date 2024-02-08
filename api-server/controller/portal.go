@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,10 @@ package controller
 
 import (
 	"fmt"
-	"net/http"
-	"time"
 	"log"
+	"net/http"
 	"text/template"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"

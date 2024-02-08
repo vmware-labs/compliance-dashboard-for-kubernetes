@@ -1,5 +1,5 @@
 /*
-Copyright 2023-2023 VMware Inc.
+Copyright 2023-2024 VMware Inc.
 SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -81,8 +81,8 @@ func getUserInfo(accessToken string) (map[string]interface{}, error) {
 	// if err != nil {
 	// 	return nil, err
 	// }
-	// fmt.Println(tokenInfo) 
-	
+	// fmt.Println(tokenInfo)
+
 	//Valid - user token:
 	/*
 		{
@@ -114,15 +114,13 @@ func getUserInfo(accessToken string) (map[string]interface{}, error) {
 	*/
 	//Invalid
 	//{"error":"invalid_token","error_description":"The access token is invalid","state":"unauthorized"}
-	
-	
+
 	// oauthUserInfoUrl := endpoint + "/oauth/userinfo?access_token=" + accessToken
 	// oauthUserInfo, err := httpGetJson(oauthUserInfoUrl)
 	// if err != nil {
 	// 	return nil, err
 	// }
 	// fmt.Println(oauthUserInfo)
-
 
 	userInfoUrl := endpoint + "/api/v4/user?access_token=" + accessToken
 	userInfo, err := httpGetJson(userInfoUrl)
