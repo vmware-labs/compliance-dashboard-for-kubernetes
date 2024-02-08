@@ -16,10 +16,9 @@ limitations under the License.
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 // SyncStart godoc

@@ -30,7 +30,6 @@ import (
 	"github.com/cenkalti/backoff/v4"
 
 	"collie-api-server/config"
-
 	"github.com/elastic/go-elasticsearch/v8"
 )
 

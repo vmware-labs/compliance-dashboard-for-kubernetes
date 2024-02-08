@@ -17,13 +17,12 @@ package config
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"log"
 	"os"
 	"regexp"
 	"strings"
 	"sync"
-
-	"github.com/spf13/viper"
 )
 
 var oauthConfig map[string]string

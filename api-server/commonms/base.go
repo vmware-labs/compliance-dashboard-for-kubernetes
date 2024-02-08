@@ -19,9 +19,8 @@ import (
 	"collie-api-server/config"
 	"context"
 	"errors"
-	"runtime/debug"
-
 	"github.com/sirupsen/logrus"
+	"runtime/debug"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 )
 

@@ -24,7 +24,6 @@ import (
 	"collie-api-server/controller"
 	_ "collie-api-server/docs"
 	auth "collie-api-server/middleware"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
